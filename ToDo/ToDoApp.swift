@@ -9,9 +9,27 @@ import SwiftUI
 
 @main
 struct ToDoApp: App {
+    @StateObject var listViewModel: ListViewModel = ListViewModel()
+    
+    init() {
+        let appearance = UINavigationBarAppearance()
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().standardAppearance = appearance
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                ListView()
+            }
+            .environmentObject(listViewModel)
         }
     }
+}
+
+#Preview {
+    NavigationView {
+        ListView()
+    }
+    .environmentObject(ListViewModel())
 }
