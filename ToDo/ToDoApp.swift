@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct ToDoApp: App {
-    @StateObject var listViewModel: ListViewModel = ListViewModel(todoService: TodoService())
+    let persistenceController = PersistenceController.shared
+
+    @StateObject var listViewModel: ListViewModel
     
     init() {
+        let context = persistenceController.container.viewContext
+        let todoService = TodoService()
+        _listViewModel = StateObject(wrappedValue: ListViewModel(todoService: todoService, viewContext: context))
+        
         let appearance = UINavigationBarAppearance()
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         UINavigationBar.appearance().standardAppearance = appearance
@@ -23,6 +29,7 @@ struct ToDoApp: App {
                 ListView()
             }
             .environmentObject(listViewModel)
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
@@ -31,5 +38,5 @@ struct ToDoApp: App {
     NavigationView {
         ListView()
     }
-    .environmentObject(ListViewModel(todoService: TodoService()))
+    .environmentObject(ListViewModel(todoService: TodoService(), viewContext: PersistenceController.preview.container.viewContext))
 }

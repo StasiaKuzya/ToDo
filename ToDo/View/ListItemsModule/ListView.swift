@@ -68,5 +68,5 @@ struct ListView: View {
     NavigationView {
         ListView()
     }
-    .environmentObject(ListViewModel(todoService: TodoService()))
+    .environmentObject(ListViewModel(todoService: TodoService(), viewContext: PersistenceController.preview.container.viewContext))
 }

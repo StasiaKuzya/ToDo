@@ -61,5 +61,5 @@ struct EmptyListView: View {
         EmptyListView()
             .navigationTitle("ToDo List 🚀")
     }
-    .environmentObject(ListViewModel(todoService: TodoService()))
+    .environmentObject(ListViewModel(todoService: TodoService(), viewContext: PersistenceController.preview.container.viewContext))
 }
