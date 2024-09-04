@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct ListRowItem: View {
-    var item: ItemModel
+    var item: Todo
     
     var body: some View {
         HStack {
-            Image(systemName: item.isCompleted ? "checkmark.square.fill" : "square")
+            Image(systemName: item.completed ? "checkmark.square.fill" : "square")
                 .resizable().frame(width: 40, height: 40)
-                .foregroundStyle(item.isCompleted ? .orange.opacity(0.8) : .orange)
+                .foregroundStyle(item.completed ? .orange.opacity(0.8) : .orange)
             
             Text(item.title)
-                .foregroundStyle(item.isCompleted ? .white.opacity(0.5) : .white)
-                .strikethrough(item.isCompleted)
+                .foregroundStyle(item.completed ? .white.opacity(0.5) : .white)
+                .strikethrough(item.completed)
             Spacer()
         }
         .padding(.vertical, 16)
@@ -33,7 +33,7 @@ struct ListRowItem: View {
 
 #Preview {
     VStack(alignment: .leading, spacing: 15) {
-        ListRowItem(item: ItemModel.mockItemCompleted)
-        ListRowItem(item: ItemModel.mockItem)
+        ListRowItem(item: Todo.mockItemCompleted)
+        ListRowItem(item: Todo.mockItem)
     }
 }

@@ -11,7 +11,7 @@ import Combine
 final class TodoService {
     private var cancellables = Set<AnyCancellable>()
     
-    func fetchTodos(completion: @escaping ([ItemModel]) -> Void) {
+    func fetchTodos(completion: @escaping ([Todo]) -> Void) {
         guard let url = URL(string: "https://dummyjson.com/todos") else {
             print("Invalid URL")
             return
@@ -20,7 +20,7 @@ final class TodoService {
         URLSession.shared.dataTaskPublisher(for: url)
             .map { $0.data }
             .decode(type: TaskEntity.self, decoder: JSONDecoder())
-            .map { $0.todos.map { ItemModel(id: String($0.id), title: $0.title, isCompleted: $0.completed) } }  // Преобразование Todo в ItemModel
+            .map { $0.todos }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completionStatus in
                 switch completionStatus {
@@ -29,8 +29,8 @@ final class TodoService {
                 case .finished:
                     break
                 }
-            }, receiveValue: { items in
-                completion(items)
+            }, receiveValue: { todos in
+                completion(todos)
             })
             .store(in: &cancellables)
     }

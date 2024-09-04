@@ -14,7 +14,7 @@ enum UserDefaultsKeys {
 }
 
 final class ListViewModel: ObservableObject {
-    @Published var items: [ItemModel] = [] {
+    @Published var items: [Todo] = [] {
         didSet {
             saveData()
         }
@@ -24,7 +24,6 @@ final class ListViewModel: ObservableObject {
     
     init(todoService: TodoService) {
         self.todoService = todoService
-//        getData()
         fetchTodos()
     }
     
@@ -32,7 +31,7 @@ final class ListViewModel: ObservableObject {
     func getData() {
         guard
             let data = UserDefaults.standard.data(forKey: UserDefaultsKeys.itemList),
-            let savedItems = try? JSONDecoder().decode([ItemModel].self, from: data)
+            let savedItems = try? JSONDecoder().decode([Todo].self, from: data)
         else {
             fetchTodos()
             return
@@ -55,11 +54,12 @@ final class ListViewModel: ObservableObject {
     }
     
     func addItem(title: String) {
-        items.append(.init(title: title, isCompleted: false))
+        let newItem = Todo(id: items.count + 1, title: title, completed: false, userID: 0)
+        items.append(newItem)
     }
     
-    func updateItem(item: ItemModel) {
-        if let index = items.firstIndex(where: {$0.id == item.id }) {
+    func updateItem(item: Todo) {
+        if let index = items.firstIndex(where: { $0.id == item.id }) {
             items[index] = item.updateCompletion()
         }
     }
