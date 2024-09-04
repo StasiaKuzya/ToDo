@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import CoreData
+import SwiftUI
 
 enum UserDefaultsKeys {
     static let itemList = "item_list"
@@ -18,8 +20,12 @@ final class ListViewModel: ObservableObject {
         }
     }
     
-    init() {
-        getData()
+    private let todoService: TodoService
+    
+    init(todoService: TodoService) {
+        self.todoService = todoService
+//        getData()
+        fetchTodos()
     }
     
     //MARK: Public Methods
@@ -27,8 +33,17 @@ final class ListViewModel: ObservableObject {
         guard
             let data = UserDefaults.standard.data(forKey: UserDefaultsKeys.itemList),
             let savedItems = try? JSONDecoder().decode([ItemModel].self, from: data)
-        else { return }
+        else {
+            fetchTodos()
+            return
+        }
         items = savedItems
+    }
+    
+    func fetchTodos() {
+        todoService.fetchTodos { [weak self] fetchedItems in
+            self?.items = fetchedItems
+        }
     }
     
     func deleteItem(index: IndexSet) {

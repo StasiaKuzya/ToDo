@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct ToDoApp: App {
-    @StateObject var listViewModel: ListViewModel = ListViewModel()
+    @StateObject var listViewModel: ListViewModel = ListViewModel(todoService: TodoService())
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -31,5 +31,5 @@ struct ToDoApp: App {
     NavigationView {
         ListView()
     }
-    .environmentObject(ListViewModel())
+    .environmentObject(ListViewModel(todoService: TodoService()))
 }

@@ -61,5 +61,5 @@ struct EmptyListView: View {
         EmptyListView()
             .navigationTitle("ToDo List 🚀")
     }
-    .environmentObject(ListViewModel())
+    .environmentObject(ListViewModel(todoService: TodoService()))
 }

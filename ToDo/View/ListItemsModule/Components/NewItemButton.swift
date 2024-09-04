@@ -10,7 +10,7 @@ import SwiftUI
 struct NewItemButton: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
-            .foregroundStyle(.mint)
+            .foregroundStyle(.orange)
             .frame(maxWidth: 68, maxHeight: 68)
             .shadow(color: .purple.opacity(0.8), radius: 12)
             .overlay {

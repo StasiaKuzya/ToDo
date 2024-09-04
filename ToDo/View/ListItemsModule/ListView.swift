@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ListView: View {
     @EnvironmentObject var viewModel: ListViewModel
@@ -27,7 +28,6 @@ struct ListView: View {
                         } label: {
                             ListRowItem(item: item)
                         }
-                        
                     }
                     .onDelete(perform: viewModel.deleteItem)
                     .onMove(perform: viewModel.moveItem)
@@ -68,5 +68,5 @@ struct ListView: View {
     NavigationView {
         ListView()
     }
-    .environmentObject(ListViewModel())
+    .environmentObject(ListViewModel(todoService: TodoService()))
 }

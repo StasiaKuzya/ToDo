@@ -89,5 +89,5 @@ struct AddView: View {
     NavigationView {
         AddView()
     }
-    .environmentObject(ListViewModel())
+    .environmentObject(ListViewModel(todoService: TodoService()))
 }

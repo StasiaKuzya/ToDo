@@ -12,9 +12,9 @@ struct ListRowItem: View {
     
     var body: some View {
         HStack {
-            Image(systemName: item.isCompleted ? "checkmark.square" : "square")
+            Image(systemName: item.isCompleted ? "checkmark.square.fill" : "square")
                 .resizable().frame(width: 40, height: 40)
-                .foregroundStyle(item.isCompleted ? .white.opacity(0.5) : .white)
+                .foregroundStyle(item.isCompleted ? .orange.opacity(0.8) : .orange)
             
             Text(item.title)
                 .foregroundStyle(item.isCompleted ? .white.opacity(0.5) : .white)
