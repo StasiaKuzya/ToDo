@@ -62,6 +62,9 @@ struct ListView: View {
             }
         }
         .tint(.indigo)
+        .onChange(of: $viewModel.items.count) { _, _ in
+            viewModel.items.sort { $0.id > $1.id }
+        }
     }
 }
 
