@@ -14,11 +14,16 @@ struct ListRowItem: View {
         HStack {
             Image(systemName: item.completed ? "checkmark.square.fill" : "square")
                 .resizable().frame(width: 40, height: 40)
-                .foregroundStyle(item.completed ? .orange.opacity(0.8) : .orange)
+                .foregroundStyle(.orange)
             
-            Text(item.title)
-                .foregroundStyle(item.completed ? .white.opacity(0.5) : .white)
-                .strikethrough(item.completed)
+            VStack(alignment: .leading) {
+                Text(item.title)
+                    .strikethrough(item.completed)
+                    .lineLimit(1)
+                Text("\(item.timestamp, formatter: itemFormatter)")
+                    .font(.caption2)
+            }
+            .foregroundStyle(item.completed ? .white.opacity(0.5) : .white)
             Spacer()
         }
         .padding(.vertical, 16)
@@ -29,6 +34,13 @@ struct ListRowItem: View {
                 .fill(LinearGradient(colors: [.mint, .cyan, .teal], startPoint: .topTrailing, endPoint: .bottomLeading))
         )
     }
+    
+    private let itemFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
 }
 
 #Preview {

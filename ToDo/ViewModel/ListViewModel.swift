@@ -24,6 +24,7 @@ final class ListViewModel: ObservableObject {
     // MARK: - Core Data Methods
     func loadTodosFromCoreData() {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)] // Сортировка по времени добавления
         
         do {
             let savedTodos = try viewContext.fetch(request)
@@ -49,6 +50,7 @@ final class ListViewModel: ObservableObject {
                 newTodoEntity.title = todo.title
                 newTodoEntity.completed = todo.completed
                 newTodoEntity.userID = Int64(todo.userID)
+                newTodoEntity.timestamp = Date()
             }
             
             saveContext()
@@ -114,7 +116,8 @@ final class ListViewModel: ObservableObject {
     // MARK: - Public Methods
     func addItem(title: String) {
         let newTodo = Todo(id: items.count + 1, title: title, completed: false, userID: 0)
-        items.append(newTodo)
+        items.insert(newTodo, at: 0)
+//        items.append(newTodo)
         saveTodoToCoreData(newTodo)
     }
 

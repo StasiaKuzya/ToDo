@@ -35,6 +35,7 @@ struct ListView: View {
                     .listRowSeparator(.hidden)
                 }
                 .listStyle(.plain)
+                .padding(.top, 1)
             }
             
             if !viewModel.items.isEmpty {
