@@ -24,11 +24,11 @@ final class ListViewModel: ObservableObject {
     // MARK: - Core Data Methods
     func loadTodosFromCoreData() {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)] // Сортировка по времени добавления
         
         do {
             let savedTodos = try viewContext.fetch(request)
             self.items = savedTodos.map { Todo(id: Int($0.id), title: $0.title ?? "", completed: $0.completed, userID: Int($0.userID)) }
+            self.items.sort { $0.id > $1.id }
         } catch {
             print("Failed to fetch todos from Core Data: \(error)")
         }
@@ -50,7 +50,6 @@ final class ListViewModel: ObservableObject {
                 newTodoEntity.title = todo.title
                 newTodoEntity.completed = todo.completed
                 newTodoEntity.userID = Int64(todo.userID)
-                newTodoEntity.timestamp = Date()
             }
             
             saveContext()
@@ -117,7 +116,6 @@ final class ListViewModel: ObservableObject {
     func addItem(title: String) {
         let newTodo = Todo(id: items.count + 1, title: title, completed: false, userID: 0)
         items.insert(newTodo, at: 0)
-//        items.append(newTodo)
         saveTodoToCoreData(newTodo)
     }
 

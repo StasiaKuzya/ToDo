@@ -19,7 +19,6 @@ struct Todo: Codable, Identifiable {
     let title: String
     let completed: Bool
     let userID: Int
-    let timestamp: Date = Date()
 
     enum CodingKeys: String, CodingKey {
         case id

@@ -20,7 +20,7 @@ struct ListRowItem: View {
                 Text(item.title)
                     .strikethrough(item.completed)
                     .lineLimit(1)
-                Text("\(item.timestamp, formatter: itemFormatter)")
+                Text("\(Date(), formatter: itemFormatter)") //TODO: change date logic
                     .font(.caption2)
             }
             .foregroundStyle(item.completed ? .white.opacity(0.5) : .white)
